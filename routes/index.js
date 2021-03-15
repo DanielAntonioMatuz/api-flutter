@@ -24,7 +24,7 @@ router.get('/getinfo', actions.getinfo)
 
 router.get('/getinfouser/:id', actions.getUserInfo)
 
-router.put('/updateinfo', actions.updateInfo)
+router.put('/updateinfo/:id', actions.updateInfo)
 
 
 module.exports = router

@@ -60,17 +60,9 @@ var functions = {
     updateInfo: function (req, res) {
         var data = req.body;
 
-        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-            var token = req.headers.authorization.split(' ')[1]
-            var decodedtoken = jwt.decode(token, config.secret)
-        }
-        else {
-            return res.json({success: false, msg: 'No Headers'})
-        }
+        let id = req.params['id'];
 
-        var id = decodedtoken._id;
-
-        console.log(data);
+        console.log(id);
 
         User.findByIdAndUpdate(id, {
             domiciality: data.domiciality,
