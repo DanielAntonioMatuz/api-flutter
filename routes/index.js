@@ -22,7 +22,7 @@ router.post('/authenticate', actions.authenticate)
 //@route GET /getinfo
 router.get('/getinfo', actions.getinfo)
 
-router.post('/getinfouser', actions.getUserInfo)
+router.get('/getinfouser/:id', actions.getUserInfo)
 
 router.put('/updateinfo', actions.updateInfo)
 

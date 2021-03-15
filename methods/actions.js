@@ -82,16 +82,8 @@ var functions = {
         });
     },
     getUserInfo: function (req, res) {
-        
-        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-            var token = req.headers.authorization.split(' ')[1]
-            var decodedtoken = jwt.decode(token, config.secret)
-        }
-        else {
-            return res.json({success: false, msg: 'No Headers'})
-        }
 
-        var id = decodedtoken._id;
+        let id = req.params['id'];
 
         User.findById(id, (err, user) => {
             if(err){
