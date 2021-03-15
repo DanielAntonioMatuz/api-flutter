@@ -9,6 +9,12 @@ var userSchema = new Schema({
     password: {
         type: String,
         require: true
+    },
+    domiciality: {
+        type: String,
+    },
+    age: {
+        type: String,
     }
 })
 

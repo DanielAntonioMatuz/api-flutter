@@ -10,7 +10,9 @@ var functions = {
         else {
             var newUser = User({
                 name: req.body.name,
-                password: req.body.password
+                password: req.body.password,
+                domiciality: req.body.domiciality,
+                age: req.body.age
             });
             newUser.save(function (err, newUser) {
                 if (err) {
@@ -49,11 +51,59 @@ var functions = {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1]
             var decodedtoken = jwt.decode(token, config.secret)
-            return res.json({success: true, msg: 'Hello ' + decodedtoken.name})
+            return res.json({success: true, msg: decodedtoken})
         }
         else {
             return res.json({success: false, msg: 'No Headers'})
         }
+    },
+    updateInfo: function (req, res) {
+        var data = req.body;
+
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+            var token = req.headers.authorization.split(' ')[1]
+            var decodedtoken = jwt.decode(token, config.secret)
+        }
+        else {
+            return res.json({success: false, msg: 'No Headers'})
+        }
+
+        var id = decodedtoken._id;
+
+        console.log(data);
+
+        User.findByIdAndUpdate(id, {
+            domiciality: data.domiciality,
+            age: data.age
+        }, (err, user_data) => {
+            if (user_data) {
+                res.status(200).send({user: user_data});
+            }
+        });
+    },
+    getUserInfo: function (req, res) {
+        
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+            var token = req.headers.authorization.split(' ')[1]
+            var decodedtoken = jwt.decode(token, config.secret)
+        }
+        else {
+            return res.json({success: false, msg: 'No Headers'})
+        }
+
+        var id = decodedtoken._id;
+
+        User.findById(id, (err, user) => {
+            if(err){
+                res.status(500).send({message: 'Error en el servidor'});
+            } else {
+                if(user){
+                    res.status(200).send({user:user});
+                } else {
+                    res.status(500).send({message:'No existe un usuario con ese ID'});
+                }
+            }
+        })
     }
 }
 
